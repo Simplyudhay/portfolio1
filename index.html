@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Udhayakumar R - Tactical Data Log</title>
+    <!-- Google Font for Military/Terminal Feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- THREE.js CDN for 3D background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'VT323', monospace;
+            background-color: #0d1117;
+            color: #d1d5db;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Custom scrollbar */
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        body::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background-color: #34d399;
+            border-radius: 20px;
+            border: 2px solid #1e293b;
+        }
+
+        /* THREE.js background canvas */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Hero section styling */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Text and button styling */
+        h1,
+        h2,
+        h3,
+        p {
+            color: #d1d5db;
+        }
+
+        .hero-title {
+            color: #34d399;
+            animation: text-pulse 2s infinite ease-in-out;
+        }
+
+        .start-button {
+            border: 2px solid #34d399;
+            background-color: transparent;
+            color: #34d399;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .start-button:hover {
+            background-color: #34d399;
+            color: #000000;
+            box-shadow: 0 0 15px #34d399, 0 0 20px #34d399;
+        }
+
+        /* Animations */
+        @keyframes text-pulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+        }
+        
+        .nav-link.active {
+            border-bottom: 2px solid #34d399;
+            color: #34d399;
+        }
+
+        .section-container {
+            min-height: calc(100vh - 8rem);
+            padding: 2rem;
+            opacity: 0;
+            display: none;
+            transition: opacity 0.5s ease-in-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-container.active {
+            display: block;
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- THREE.js background canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Hero Section - Visible on initial load -->
+    <section class="hero-section" id="hero-section">
+        <h1 class="text-5xl md:text-7xl font-bold hero-title mb-4">UDHAYAKUMAR R</h1>
+        <p class="text-xl md:text-2xl text-gray-400 mb-8">DevOps Intern | Analyst | Engineer</p>
+        <button class="start-button px-8 py-4 rounded-full text-lg font-bold" id="access-button">ACCESS DATA LOG</button>
+    </section>
+
+    <!-- Main Content Wrapper - Hidden on initial load -->
+    <div id="main-content-wrapper" style="display: none;">
+        <!-- Header Navigation -->
+        <header class="fixed top-0 left-0 right-0 z-50 bg-black bg-opacity-70 backdrop-blur-sm p-4 text-center border-b border-gray-800">
+            <ul class="flex justify-center space-x-6">
+                <li><button class="nav-link py-2 px-4 hover:text-green-400 active" data-nav-link data-page-name="about">ABOUT</button></li>
+                <li><button class="nav-link py-2 px-4 hover:text-green-400" data-nav-link data-page-name="resume">RESUME</button></li>
+                <li><button class="nav-link py-2 px-4 hover:text-green-400" data-nav-link data-page-name="projects">PROJECTS</button></li>
+                <li><button class="nav-link py-2 px-4 hover:text-green-400" data-nav-link data-page-name="publications">PUBLICATIONS</button></li>
+                <li><button class="nav-link py-2 px-4 hover:text-green-400" data-nav-link data-page-name="blog">BLOG</button></li>
+                <li><button class="nav-link py-2 px-4 hover:text-green-400" data-nav-link data-page-name="playlist">PLAYLIST</button></li>
+                <li><button class="nav-link py-2 px-4 hover:text-green-400" data-nav-link data-page-name="contact">CONTACT</button></li>
+            </ul>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container mx-auto mt-8 p-4">
+            
+            <!-- About Page -->
+            <section class="section-container active" data-page="about">
+                <h2 class="text-4xl font-bold mb-6 text-green-400">[ ABOUT ME ]</h2>
+                <div class="bg-slate-800 p-8 rounded-lg shadow-xl border border-gray-700">
+                    <p class="text-lg leading-relaxed mb-4">
+                        Hello! I'm a Final year student deeply engaged in software development, journalism, and aspiring towards a career in civil service. My experience as a software developer intern has equipped me with a knack for problem-solving and innovation, while my role as a student journalist has sharpened my analytical skills and understanding of global affairs.
+                    </p>
+                    <p class="text-lg leading-relaxed">
+                        These passions drive my ambition to use technology and informed policymaking to create positive societal change. As I navigate the complexities of our world, I'm committed to contributing to a future where technology enhances public services and governance.
+                    </p>
+                    <h3 class="text-2xl font-bold mt-8 mb-4 text-green-400">[ MISSION ]</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="p-4 rounded-lg border border-gray-700 bg-slate-900 hover:border-green-400 transition-colors">
+                            <h4 class="text-xl font-bold text-gray-100">CONTENT WRITER</h4>
+                            <p class="text-sm text-gray-400 mt-2">Specializing in high-quality, professional content.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-gray-700 bg-slate-900 hover:border-green-400 transition-colors">
+                            <h4 class="text-xl font-bold text-gray-100">WEB DEVELOPMENT</h4>
+                            <p class="text-sm text-gray-400 mt-2">High-quality development of sites at the intermediate level.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-gray-700 bg-slate-900 hover:border-green-400 transition-colors">
+                            <h4 class="text-xl font-bold text-gray-100">MOBILE APP</h4>
+                            <p class="text-sm text-gray-400 mt-2">Building an application for TokenizeX.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-gray-700 bg-slate-900 hover:border-green-400 transition-colors">
+                            <h4 class="text-xl font-bold text-gray-100">POLITICAL ANALYST</h4>
+                            <p class="text-sm text-gray-400 mt-2">Analyzing real-world politics with a modern perspective.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Resume Page -->
+            <section class="section-container" data-page="resume">
+                <h2 class="text-4xl font-bold mb-6 text-green-400">[ RESUME ]</h2>
+                <div class="bg-slate-800 p-8 rounded-lg shadow-xl border border-gray-700">
+                    <h3 class="text-2xl font-bold mb-4 text-green-400">[ EDUCATION ]</h3>
+                    <ul class="space-y-6 mb-8">
+                        <li class="p-6 rounded-lg border border-gray-700 hover:border-green-400 transition-colors">
+                            <h4 class="text-xl font-bold text-gray-100">B.Tech in Computer Science and Business Systems</h4>
+                            <p class="text-sm text-gray-400">R.M.K Engineering College, Tiruvallur | 2021 — 2025</p>
+                            <p class="text-sm text-gray-400 mt-1">CGPA: 7.99/10.0</p>
+                        </li>
+                        <li class="p-6 rounded-lg border border-gray-700 hover:border-green-400 transition-colors">
+                            <h4 class="text-xl font-bold text-gray-100">Higher Secondary Education</h4>
+                            <p class="text-sm text-gray-400">M.K.V Boys Higher Secondary School, Arani | 2020 — 2021</p>
+                            <p class="text-sm text-gray-400 mt-1">Grade: 80.36/100.0</p>
+                        </li>
+                    </ul>
+                    <h3 class="text-2xl font-bold mb-4 text-green-400">[ EXPERIENCE ]</h3>
+                    <ul class="space-y-6">
+                        <li class="p-6 rounded-lg border border-gray-700 hover:border-green-400 transition-colors">
+                            <h4 class="text-xl font-bold text-gray-100">Defence Research Intern</h4>
+                            <p class="text-sm text-gray-400">Officers Training Academy, Chennai | Mar 2025 - Present</p>
+                        </li>
+                        <li class="p-6 rounded-lg border border-gray-700 hover:border-green-400 transition-colors">
+                            <h4 class="text-xl font-bold text-gray-100">IoT Solution Intern</h4>
+                            <p class="text-sm text-gray-400">Tata Consultancy Services (TCS) | Jan 2022 - Apr 2022</p>
+                        </li>
+                        <li class="p-6 rounded-lg border border-gray-700 hover:border-green-400 transition-colors">
+                            <h4 class="text-xl font-bold text-gray-100">Member Secretary</h4>
+                            <p class="text-sm text-gray-400">Kalam Foundation Coimbatore | Oct 2018 - Feb 2025</p>
+                        </li>
+                        <li class="p-6 rounded-lg border border-gray-700 hover:border-green-400 transition-colors">
+                            <h4 class="text-xl font-bold text-gray-100">Coordinator of Volunteers</h4>
+                            <p class="text-sm text-gray-400">Bhumi | Jun 2023 - Jun 2024</p>
+                        </li>
+                        <li class="p-6 rounded-lg border border-gray-700 hover:border-green-400 transition-colors">
+                            <h4 class="text-xl font-bold text-gray-100">Data Science and Analytics Intern</h4>
+                            <p class="text-sm text-gray-400">All India Council for Technical Education (AICTE) | Feb 2024 - Apr 2024</p>
+                        </li>
+                        <li class="p-6 rounded-lg border border-gray-700 hover:border-green-400 transition-colors">
+                            <h4 class="text-xl font-bold text-gray-100">Creative Writer</h4>
+                            <p class="text-sm text-gray-400">Pratilipi | May 2020 - Oct 2022</p>
+                        </li>
+                        <li class="p-6 rounded-lg border border-gray-700 hover:border-green-400 transition-colors">
+                            <h4 class="text-xl font-bold text-gray-100">Student Journalist</h4>
+                            <p class="text-sm text-gray-400">Vikatan | Jun 2019 - Sep 2022</p>
+                        </li>
+                        <li class="p-6 rounded-lg border border-gray-700 hover:border-green-400 transition-colors">
+                            <h4 class="text-xl font-bold text-gray-100">Event Coordinator</h4>
+                            <p class="text-sm text-gray-400">Cultural Association Thiruvallur | May 2022 - Jun 2022</p>
+                        </li>
+                        <li class="p-6 rounded-lg border border-gray-700 hover:border-green-400 transition-colors">
+                            <h4 class="text-xl font-bold text-gray-100">Human Resources Executive</h4>
+                            <p class="text-sm text-gray-400">LUDIFU | Apr 2022 - May 2022</p>
+                        </li>
+                        <li class="p-6 rounded-lg border border-gray-700 hover:border-green-400 transition-colors">
+                            <h4 class="text-xl font-bold text-gray-100">Campus Ambassador</h4>
+                            <p class="text-sm text-gray-400">The Science Forum, Hindu College | Jan 2022 - Feb 2022</p>
+                        </li>
+                        <li class="p-6 rounded-lg border border-gray-700 hover:border-green-400 transition-colors">
+                            <h4 class="text-xl font-bold text-gray-100">Campus Ambassador</h4>
+                            <p class="text-sm text-gray-400">Indian Institute of Technology (BHU) | Jan 2022 - Feb 2022</p>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Projects Page -->
+            <section class="section-container" data-page="projects">
+                <h2 class="text-4xl font-bold mb-6 text-green-400">[ PROJECTS ]</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="p-4 rounded-lg border border-gray-700 bg-slate-900 hover:border-green-400 transition-colors">
+                        <h3 class="text-lg font-bold">FreshBox AI</h3>
+                        <p class="text-gray-300">Applications</p>
+                        <a href="https://codepen.io/simplyudhay/full/Jjeodxe" target="_blank" class="text-sm text-gray-500 hover:text-green-400 transition-colors">VIEW ></a>
+                    </div>
+                    <div class="p-4 rounded-lg border border-gray-700 bg-slate-900 hover:border-green-400 transition-colors">
+                        <h3 class="text-lg font-bold">MetaSpark</h3>
+                        <p class="text-gray-300">Web design</p>
+                        <a href="https://codepen.io/simplyudhay/full/poBVPwQ" target="_blank" class="text-sm text-gray-500 hover:text-green-400 transition-colors">VIEW ></a>
+                    </div>
+                    <div class="p-4 rounded-lg border border-gray-700 bg-slate-900 hover:border-green-400 transition-colors">
+                        <h3 class="text-lg font-bold">Summarize</h3>
+                        <p class="text-gray-300">Web development</p>
+                        <a href="https://codepen.io/simplyudhay/full/QWPrvMB" target="_blank" class="text-sm text-gray-500 hover:text-green-400 transition-colors">VIEW ></a>
+                    </div>
+                    <div class="p-4 rounded-lg border border-gray-700 bg-slate-900 hover:border-green-400 transition-colors">
+                        <h3 class="text-lg font-bold">Task Manager</h3>
+                        <p class="text-gray-300">Applications</p>
+                        <a href="https://codepen.io/simplyudhay/full/xxejdXG" target="_blank" class="text-sm text-gray-500 hover:text-green-400 transition-colors">VIEW ></a>
+                    </div>
+                    <div class="p-4 rounded-lg border border-gray-700 bg-slate-900 hover:border-green-400 transition-colors">
+                        <h3 class="text-lg font-bold">Arrival</h3>
+                        <p class="text-gray-300">Web development</p>
+                        <a href="https://codepen.io/simplyudhay/full/KKYRmXr" target="_blank" class="text-sm text-gray-500 hover:text-green-400 transition-colors">VIEW ></a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Publications Page -->
+            <section class="section-container" data-page="publications">
+                <h2 class="text-4xl font-bold mb-6 text-green-400">[ PUBLICATIONS ]</h2>
+                <div class="space-y-4">
+                    <div class="p-4 rounded-lg border border-gray-700 bg-slate-900 hover:border-green-400 transition-colors">
+                        <h3 class="text-lg font-bold">இருளின் விண்மீன்கள்</h3>
+                        <p class="text-sm text-gray-400">யாப்பு பதிப்பகம் · Sep 4, 2021</p>
+                        <a href="https://books.google.co.in/books/about/%E0%AE%87%E0%AE%B0%E0%AF%81%E0%AE%B3%E0%AE%BF%E0%AE%A9%E0%AF%8D_%E0%AE%B5%E0%AE%BF%E0%AE%A3%E0%AF%8D%E0%AE%AE%E0%AF%80.html?id=T7FYEAAAQBAJ&redir_esc=y" target="_blank" class="text-sm text-gray-500 hover:text-green-400 transition-colors">VIEW ></a>
+                    </div>
+                    <div class="p-4 rounded-lg border border-gray-700 bg-slate-900 hover:border-green-400 transition-colors">
+                        <h3 class="text-lg font-bold">நம்பிக்கை</h3>
+                        <p class="text-sm text-gray-400">Pratilipi · Oct 7, 2020</p>
+                        <a href="https://tamil.pratilipi.com/story/%E0%AE%A8%E0%AE%AE%E0%AF%8D%E0%AE%AA%E0%AE%BF%E0%AE%95%E0%AF%8D%E0%AE%95%E0%AF%88-jiq42knusahb?language=TAMIL&utm_source=android&utm_campaign=content_share" target="_blank" class="text-sm text-gray-500 hover:text-green-400 transition-colors">VIEW ></a>
+                    </div>
+                    <div class="p-4 rounded-lg border border-gray-700 bg-slate-900 hover:border-green-400 transition-colors">
+                        <h3 class="text-lg font-bold">கடந்துபோகாத காதல்</h3>
+                        <p class="text-sm text-gray-400">Pratilipi · Jun 27, 2020</p>
+                        <a href="https://tamil.pratilipi.com/story/%E0%AE%95%E0%AE%9F%E0%AE%A8%E0%AF%8D%E0%AE%A4%E0%AF%81%E0%AE%AA%E0%AF%8B%E0%AE%95%E0%AE%BE%E0%AE%A4-%E0%AE%95%E0%AE%BE%E0%AE%A4%E0%AE%B2%E0%AF%8D-%E0%AE%9A%E0%AE%BF%E0%AE%B1%E0%AF%81%E0%AE%95%E0%AE%A4%E0%AF%88-xw7djbpzzdzl?language=TAMIL&utm_source=android&utm_campaign=content_share" target="_blank" class="text-sm text-gray-500 hover:text-green-400 transition-colors">VIEW ></a>
+                    </div>
+                    <div class="p-4 rounded-lg border border-gray-700 bg-slate-900 hover:border-green-400 transition-colors">
+                        <h3 class="text-lg font-bold">இவள்...?</h3>
+                        <p class="text-sm text-gray-400">Pratilipi · May 30, 2020</p>
+                        <a href="http://tamil.pratilipi.com/story/%E0%AE%87%E0%AE%B5%E0%AE%B3%E0%AF%8D-%E0%AE%9A%E0%AE%BF%E0%AE%B1%E0%AF%81%E0%AE%95%E0%AE%A4%E0%AF%88-jstejjzfcpo6?language=TAMIL&utm_source=android&utm_campaign=content_share" target="_blank" class="text-sm text-gray-500 hover:text-green-400 transition-colors">VIEW ></a>
+                    </div>
+                    <div class="p-4 rounded-lg border border-gray-700 bg-slate-900 hover:border-green-400 transition-colors">
+                        <h3 class="text-lg font-bold">நட்சத்திரம்</h3>
+                        <p class="text-sm text-gray-400">Pratilpi · May 28, 2020</p>
+                        <a href="https://tamil.pratilipi.com/story/%E0%AE%A8%E0%AE%9F%E0%AF%8D%E0%AE%9A%E0%AE%A4%E0%AF%8D%E0%AE%A4%E0%AE%BF%E0%AE%B0%E0%AE%AE%E0%AF%8D-9adssaroltcb?language=TAMIL&utm_source=android&utm_campaign=content_share" target="_blank" class="text-sm text-gray-500 hover:text-green-400 transition-colors">VIEW ></a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Blog Page -->
+            <section class="section-container" data-page="blog">
+                <h2 class="text-4xl font-bold mb-6 text-green-400">[ BLOG ]</h2>
+                <div class="space-y-4">
+                    <div class="p-4 rounded-lg border border-gray-700 bg-slate-900 hover:border-green-400 transition-colors">
+                        <h3 class="text-lg font-bold">பிறப்பால் மனிதன் மனதால் கடவுள்</h3>
+                        <p class="text-sm text-gray-400">General · March 08, 2024</p>
+                        <a href="https://udhaynblog.blogspot.com/2024/03/blog-post.html" target="_blank" class="text-sm text-gray-500 hover:text-green-400 transition-colors">VIEW ></a>
+                    </div>
+                    <div class="p-4 rounded-lg border border-gray-700 bg-slate-900 hover:border-green-400 transition-colors">
+                        <h3 class="text-lg font-bold">Gandhi - A Myth</h3>
+                        <p class="text-sm text-gray-400">Politics · October 05, 2023</p>
+                        <a href="https://udhaynblog.blogspot.com/2023/10/gandhi-myth.html" target="_blank" class="text-sm text-gray-500 hover:text-green-400 transition-colors">VIEW ></a>
+                    </div>
+                    <div class="p-4 rounded-lg border border-gray-700 bg-slate-900 hover:border-green-400 transition-colors">
+                        <h3 class="text-lg font-bold">Diplomatic Drama: India vs. Canada</h3>
+                        <p class="text-sm text-gray-400">Politics · September 26, 2023</p>
+                        <a href="https://udhaynblog.blogspot.com/2023/09/indc.html" target="_blank" class="text-sm text-gray-500 hover:text-green-400 transition-colors">VIEW ></a>
+                    </div>
+                    <div class="p-4 rounded-lg border border-gray-700 bg-slate-900 hover:border-green-400 transition-colors">
+                        <h3 class="text-lg font-bold">Digital Rupee : Unlocking The Revolution</h3>
+                        <p class="text-sm text-gray-400">Finance · June 17, 2023</p>
+                        <a href="https://udhaynblog.blogspot.com/2023/06/cdbc.html" target="_blank" class="text-sm text-gray-500 hover:text-green-400 transition-colors">VIEW ></a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Playlist Page -->
+            <section class="section-container" data-page="playlist">
+                <h2 class="text-4xl font-bold mb-6 text-green-400">[ UDHAY'S PLAYLIST ]</h2>
+                <div class="bg-slate-800 p-8 rounded-lg shadow-xl border border-gray-700 text-center">
+                    <p class="text-gray-400 mb-6">Music player is ready. Press play to begin audio transmission.</p>
+                    <div class="w-full max-w-xl mx-auto">
+                         <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" frameborder="0" height="450" style="width:100%;max-width:660px;overflow:hidden;border-radius:10px;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/us/playlist/ilaiyaraaja-essentials/pl.8acc4c4f051d44779c2614b0d8bd9452"></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Page -->
+            <section class="section-container" data-page="contact">
+                <h2 class="text-4xl font-bold mb-6 text-green-400">[ CONTACT ]</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-slate-800 p-8 rounded-lg shadow-xl border border-gray-700">
+                    <div class="space-y-4">
+                        <p class="text-lg"><span class="text-green-400">EMAIL:</span> simplyudhay@gmail.com</p>
+                        <p class="text-lg"><span class="text-green-400">PHONE:</span> +91 6369574531</p>
+                        <p class="text-lg"><span class="text-green-400">LOCATION:</span> Tiruvallur, Tamil Nadu, India</p>
+                        <div class="flex space-x-4">
+                            <a href="https://www.linkedin.com/in/simplyudhay/" target="_blank" class="text-green-400 hover:underline">LINKEDIN</a>
+                            <a href="https://twitter.com/Simplyudhay" target="_blank" class="text-green-400 hover:underline">TWITTER</a>
+                            <a href="https://www.instagram.com/simplyudhay" target="_blank" class="text-green-400 hover:underline">INSTAGRAM</a>
+                        </div>
+                    </div>
+                    <div class="contact-form">
+                        <h3 class="text-2xl font-bold mb-4 text-green-400">[ MESSAGE FORM ]</h3>
+                        <form action="https://api.web3forms.com/submit" method="POST" class="space-y-4">
+                            <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+                            <input type="text" name="fullname" class="w-full p-3 rounded-lg bg-slate-900 border border-gray-700 focus:border-green-400 outline-none transition-colors placeholder-gray-500" placeholder="FULL NAME" required>
+                            <input type="email" name="email" class="w-full p-3 rounded-lg bg-slate-900 border border-gray-700 focus:border-green-400 outline-none transition-colors placeholder-gray-500" placeholder="EMAIL ADDRESS" required>
+                            <textarea name="message" class="w-full h-32 p-3 rounded-lg bg-slate-900 border border-gray-700 focus:border-green-400 outline-none transition-colors placeholder-gray-500" placeholder="YOUR MESSAGE" required></textarea>
+                            <button class="w-full py-3 px-6 rounded-full bg-green-600 hover:bg-green-500 text-black font-bold transition-transform duration-300" type="submit">
+                                TRANSMIT MESSAGE >
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="py-6 text-center text-gray-500 text-sm mt-8">
+            <p>TERMINAL-LOG: EXECUTION COMPLETE</p>
+            <p>&copy; 2025 UDHAYAKUMAR R. ALL RIGHTS RESERVED.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Function for page switching based on navigation buttons
+            const navLinks = document.querySelectorAll('[data-nav-link]');
+            const pages = document.querySelectorAll('[data-page]');
+            const heroSection = document.getElementById('hero-section');
+            const mainContentWrapper = document.getElementById('main-content-wrapper');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    const pageName = link.dataset.pageName;
+
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    pages.forEach(item => item.classList.remove('active'));
+
+                    link.classList.add('active');
+                    document.querySelector(`[data-page="${pageName}"]`).classList.add('active');
+                });
+            });
+
+            // Handle initial view
+            const accessButton = document.getElementById('access-button');
+            if (accessButton) {
+                accessButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    heroSection.style.display = 'none';
+                    mainContentWrapper.style.display = 'block';
+                    
+                    // Set initial active page
+                    const initialPage = document.querySelector('[data-page="about"]');
+                    initialPage.classList.add('active');
+                    
+                    const initialNavLink = document.querySelector('[data-nav-link][data-page-name="about"]');
+                    initialNavLink.classList.add('active');
+                    
+                    // Scroll to the top of the new content
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+            // THREE.js tactical background animation
+            const canvas = document.getElementById('bg-canvas');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            // Create a custom grid of glowing points
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 5000;
+            const posArray = new Float32Array(particlesCount * 3);
+
+            for (let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 1000;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            
+            const particlesMaterial = new THREE.PointsMaterial({
+                color: 0x34d399,
+                size: 1,
+                blending: THREE.AdditiveBlending,
+                transparent: true,
+                opacity: 0.8,
+            });
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+
+            camera.position.z = 250;
+            camera.position.y = 50;
+
+            let mouseX = 0;
+            let mouseY = 0;
+            const windowHalfX = window.innerWidth / 2;
+            const windowHalfY = window.innerHeight / 2;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX - windowHalfX);
+                mouseY = (event.clientY - windowHalfY);
+            });
+
+            // Animation loop
+            const animate = () => {
+                requestAnimationFrame(animate);
+
+                // Make the particles rotate
+                particlesMesh.rotation.y += 0.001;
+                particlesMesh.rotation.x += 0.001;
+
+                // Move the camera based on mouse position
+                camera.position.x += (mouseX * 0.01 - camera.position.x) * 0.05;
+                camera.position.y += (-mouseY * 0.01 - camera.position.y) * 0.05;
+                camera.lookAt(scene.position);
+
+                renderer.render(scene, camera);
+            };
+
+            animate();
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        });
+    </script>
+</body>
+</html>
